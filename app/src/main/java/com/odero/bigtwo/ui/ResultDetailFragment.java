@@ -62,12 +62,9 @@ public class ResultDetailFragment extends Fragment {
         ButterKnife.bind(this, view);
         Picasso.get().load(mResult.getArtworkUrl100()).into(mImageLabel);
 
-        List<String> categories = new ArrayList<>();
-        for (Category category: mRestaurant.getCategories()) {
-            categories.add(category.getTitle());
-        }
+        mdescription.setText(mResult.getLongDescription());
 
-        mNameLabel.setText(mRestaurant.getName());
+        mNameLabel.setText(mResult.getArtistName());
 //        mCategoriesLabel.setText(android.text.TextUtils.join(", ", categories));
 //        mRatingLabel.setText(Double.toString(mRestaurant.getRating()) + "/5");
 //        mPhoneLabel.setText(mRestaurant.getPhone());
