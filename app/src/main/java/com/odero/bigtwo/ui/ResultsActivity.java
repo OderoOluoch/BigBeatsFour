@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,25 +33,26 @@ public class ResultsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_results);
 
         recyclerView = findViewById(R.id.postRecyclerView);
         progressBar = findViewById(R.id.progressBar);
         layoutManager = new LinearLayoutManager(this);
+        Log.e("TAG", "We got here");
         recyclerView.setLayoutManager(layoutManager);
+        Intent intent = getIntent();
+        String TypedSearchKeyWOrd = intent.getStringExtra("TypedSearchKeyWOrd");
 
+        fetchPosts(TypedSearchKeyWOrd);
 
-
-        fetchPosts();
     }
-    private void fetchPosts(){
+    private void fetchPosts(String term){
         progressBar.setVisibility(View.VISIBLE);
-        TracksClient.getRetrofitClient().getTracks("David").enqueue(new Callback<TrackResponse>() {
+        TracksClient.getRetrofitClient().getTracks(term).enqueue(new Callback<TrackResponse>() {
             @Override
             public void onResponse(Call<TrackResponse> call, Response<TrackResponse> response) {
                 if(response.isSuccessful() && response.body() != null){
                     resultList = response.body().getResults();
-                    Log.e("TAG", resultList.toString());
 
                     progressBar.setVisibility(View.GONE);
                     adapter = new TrackListApater(resultList);

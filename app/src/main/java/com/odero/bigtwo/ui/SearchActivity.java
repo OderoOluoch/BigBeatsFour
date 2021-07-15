@@ -25,7 +25,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_log_in);
+        setContentView(R.layout.activity_search);
 
         //BindViews
         ButterKnife.bind(this);
@@ -40,9 +40,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             if( searchKeyWOrd.getText().toString().length() == 0 ){
                 searchKeyWOrd.setError( "Please Enter a search key word to proceed" );
             }else {
-                String enteredKeyword = searchKeyWOrd.getText().toString();
+                String TypedSearchKeyWOrd = searchKeyWOrd.getText().toString();
                 Intent intent = new Intent(SearchActivity.this, ResultsActivity.class);
-                intent.putExtra("searchKeyWOrd", enteredKeyword);
+                intent.putExtra("TypedSearchKeyWOrd", TypedSearchKeyWOrd);
                 startActivity(intent);
             }
         }
