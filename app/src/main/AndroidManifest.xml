@@ -16,7 +16,7 @@
         <activity android:name=".ui.SignInActivity" />
         <activity android:name=".ui.LogInActivity" />
         <activity android:name=".ui.WelcomeActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
