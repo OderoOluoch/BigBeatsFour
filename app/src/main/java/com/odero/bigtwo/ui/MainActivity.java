@@ -1,4 +1,4 @@
-package com.odero.bigtwo;
+package com.odero.bigtwo.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.odero.bigtwo.R;
 import com.odero.bigtwo.adapter.TrackListApater;
 import com.odero.bigtwo.models.Result;
 import com.odero.bigtwo.models.TrackResponse;
