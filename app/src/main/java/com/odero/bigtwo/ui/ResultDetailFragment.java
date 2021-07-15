@@ -13,10 +13,12 @@ import android.widget.TextView;
 
 import com.odero.bigtwo.R;
 import com.odero.bigtwo.models.Result;
+import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,19 +53,36 @@ public class ResultDetailFragment extends Fragment {
         assert getArguments() != null;
         mResult = Parcels.unwrap(getArguments().getParcelable("result"));
     }
-
-
-
-
-
-
-
-
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_result_detail, container, false);
+
+        View view =  inflater.inflate(R.layout.fragment_result_detail, container, false);
+        ButterKnife.bind(this, view);
+        Picasso.get().load(mResult.getArtworkUrl100()).into(mImageLabel);
+
+        List<String> categories = new ArrayList<>();
+        for (Category category: mRestaurant.getCategories()) {
+            categories.add(category.getTitle());
+        }
+
+        mNameLabel.setText(mRestaurant.getName());
+//        mCategoriesLabel.setText(android.text.TextUtils.join(", ", categories));
+//        mRatingLabel.setText(Double.toString(mRestaurant.getRating()) + "/5");
+//        mPhoneLabel.setText(mRestaurant.getPhone());
+//        mAddressLabel.setText(mRestaurant.getLocation().toString());
+
+        return view;
     }
+
+
+
+
+
+
+
+
+
+
 }
