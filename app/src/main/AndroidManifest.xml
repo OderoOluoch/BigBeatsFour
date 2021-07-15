@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.odero.bigtwo">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -10,13 +11,48 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BigTwo">
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.ResultsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.odero.bigtwo.ui.SearchActivity"></meta-data>
+        </activity>
+        <activity
+            android:name=".ui.SearchActivity"
+            android:theme="@style/NoActionBarTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.odero.bigtwo.ui.LogInActivity"></meta-data>
+        </activity>
+        <activity
+            android:name=".ui.SignInActivity"
+            android:theme="@style/NoActionBarTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.odero.bigtwo.ui.WelcomeActivity"></meta-data>
+        </activity>
+        <activity
+            android:name=".ui.LogInActivity"
+            android:theme="@style/NoActionBarTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.odero.bigtwo.ui.WelcomeActivity"></meta-data>
+        </activity>
+        <activity
+            android:theme="@style/NoActionBarTheme"
+            android:name=".ui.WelcomeActivity" />
+        <activity
+            android:name=".ui.MainActivity"
+            android:theme="@style/NoActionBarTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

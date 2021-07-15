@@ -3,14 +3,19 @@ package com.odero.bigtwo.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.odero.bigtwo.R;
 import com.odero.bigtwo.models.Result;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class TrackListApater extends RecyclerView.Adapter<TrackListApater.TrackViewHolder>{
 
@@ -30,8 +35,12 @@ public class TrackListApater extends RecyclerView.Adapter<TrackListApater.TrackV
 
     @Override
     public void onBindViewHolder(TrackListApater.TrackViewHolder holder, int position) {
-        holder.tvBody.setText("Artist Name: " + resultList.get(position).getArtistName());
-        holder.tvTitle.setText("Collection Name: " + resultList.get(position).getCollectionName());
+        //holder.tvBody.setText("Artist Name: " + resultList.get(position).getArtistName());
+        //holder.tvTitle.setText("Collection Name: " + resultList.get(position).getCollectionName());
+        holder.mAlbumNameTextView.setText( resultList.get(position).getCollectionName());
+        holder.mAlbumArtistTextView.setText(resultList.get(position).getArtistName());
+        holder.mAlbumTrackCountTextView.setText(resultList.get(position).getTrackCount()+" Songs" );
+        Picasso.get().load(resultList.get(position).getArtworkUrl100()).into(holder.mAlbumImageView);
 
     }
 
@@ -41,13 +50,20 @@ public class TrackListApater extends RecyclerView.Adapter<TrackListApater.TrackV
     }
 
     public class TrackViewHolder extends  RecyclerView.ViewHolder {
-        TextView tvTitle,tvBody;
+    //TextView tvBody,tvTitle;
+
+        @BindView(R.id.albumImage) ImageView mAlbumImageView;
+        @BindView(R.id.albumName) TextView mAlbumNameTextView;
+        @BindView(R.id.albumArtsistName) TextView mAlbumArtistTextView;
+        @BindView(R.id.numberOfSongs) TextView mAlbumTrackCountTextView;
+
 
         public TrackViewHolder(View itemView) {
             super(itemView);
+           ButterKnife.bind(this, itemView);
 
-            tvBody = itemView.findViewById(R.id.tvBody);
-            tvTitle = itemView.findViewById(R.id.tvTitle);
+            //tvBody = itemView.findViewById(R.id.tvBody);
+            //tvTitle = itemView.findViewById(R.id.tvTitle);
 
         }
     }
