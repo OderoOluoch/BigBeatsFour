@@ -24,13 +24,14 @@
                 android:orientation="vertical">
 
                 <ImageView
-
+                    android:id="@+id/frtrackImageView"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/beats" />
 
                 <TextView
+                    android:id="@+id/frtrackNameTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Welcome"
@@ -40,6 +41,7 @@
                     android:fontFamily="sans-serif-black"
                     android:textSize="30sp" />
                 <TextView
+                    android:id="@+id/frTrackDescriptionTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
