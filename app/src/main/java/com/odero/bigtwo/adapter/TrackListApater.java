@@ -1,5 +1,7 @@
 package com.odero.bigtwo.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,19 +12,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.odero.bigtwo.R;
 import com.odero.bigtwo.models.Result;
+import com.odero.bigtwo.ui.ResultDetailActivity;
 import com.squareup.picasso.Picasso;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TrackListApater extends RecyclerView.Adapter<TrackListApater.TrackViewHolder>{
+public class TrackListApater extends RecyclerView.Adapter<TrackListApater.TrackViewHolder> {
 
     private List<Result> resultList;
+    private Context mContext;
 
 
-    public TrackListApater(List<Result> mtrackList) {
+    public TrackListApater(Context context,List<Result> mtrackList) {
+        mContext = context;
         this.resultList = mtrackList;
     }
 
@@ -49,7 +56,7 @@ public class TrackListApater extends RecyclerView.Adapter<TrackListApater.TrackV
         return resultList.size();
     }
 
-    public class TrackViewHolder extends  RecyclerView.ViewHolder {
+    public class TrackViewHolder extends  RecyclerView.ViewHolder implements View.OnClickListener {
     //TextView tvBody,tvTitle;
 
         @BindView(R.id.albumImage) ImageView mAlbumImageView;
@@ -61,10 +68,19 @@ public class TrackListApater extends RecyclerView.Adapter<TrackListApater.TrackV
         public TrackViewHolder(View itemView) {
             super(itemView);
            ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
 
             //tvBody = itemView.findViewById(R.id.tvBody);
             //tvTitle = itemView.findViewById(R.id.tvTitle);
 
+        }
+        @Override
+        public void onClick(View v) {
+            int itemPosition = getLayoutPosition();
+            Intent intent = new Intent(mContext, ResultDetailActivity.class);
+            intent.putExtra("position", itemPosition);
+            intent.putExtra("result", Parcels.wrap(resultList));
+            mContext.startActivity(intent);
         }
     }
 }
