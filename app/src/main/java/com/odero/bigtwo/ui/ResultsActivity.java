@@ -55,7 +55,7 @@ public class ResultsActivity extends AppCompatActivity {
                     resultList = response.body().getResults();
 
                     progressBar.setVisibility(View.GONE);
-                    adapter = new TrackListApater(resultList);
+                    adapter = new TrackListApater(ResultsActivity.this,resultList);
                     recyclerView.setAdapter(adapter);
 
                     adapter.notifyDataSetChanged();

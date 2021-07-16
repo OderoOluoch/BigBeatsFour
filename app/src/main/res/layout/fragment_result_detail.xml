@@ -14,7 +14,7 @@
         <androidx.cardview.widget.CardView
             android:layout_marginTop="50dp"
             android:layout_width="350dp"
-            android:layout_height="500dp"
+            android:layout_height="600dp"
             app:cardElevation="60dp"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="50dp">
@@ -26,7 +26,7 @@
                 <ImageView
                     android:id="@+id/frtrackImageView"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="300dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/beats" />
 
@@ -39,7 +39,7 @@
                     android:layout_marginTop="5dp"
                     android:textColor="@color/black"
                     android:fontFamily="sans-serif-black"
-                    android:textSize="30sp" />
+                    android:textSize="20sp" />
                 <TextView
                     android:id="@+id/frTrackDescriptionTextView"
                     android:layout_width="match_parent"
@@ -48,7 +48,8 @@
                     android:layout_margin="10dp"
                     android:textColor="@color/black"
                     android:text="So, this is going to be the long description"
-                    android:textSize="20sp"/>
+                    android:textSize="15sp"/>
+                
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

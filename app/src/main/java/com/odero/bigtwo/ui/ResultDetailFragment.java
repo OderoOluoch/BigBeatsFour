@@ -62,9 +62,26 @@ public class ResultDetailFragment extends Fragment {
         ButterKnife.bind(this, view);
         Picasso.get().load(mResult.getArtworkUrl100()).into(mImageLabel);
 
-        mdescription.setText(mResult.getLongDescription());
+        //.setText(mResult.getLongDescription());
 
-        mNameLabel.setText(mResult.getArtistName());
+        mdescription.setText("Artist: "+mResult.getArtistName()
+                + "Warapper type :" + mResult.getWrapperType()
+                + "Track count :" + mResult.getTrackCount()
+                + "Collection name :" + mResult.getCollectionName()
+                + "Url :" + mResult.getCollectionArtistViewUrl()
+                + "Censored Name :" + mResult.getCollectionCensoredName()
+                + "Explisitness :" + mResult.getCollectionExplicitness()
+                + "Advisory rating :" + mResult.getContentAdvisoryRating()
+                + "Time :" + mResult.getTrackTimeMillis()
+                + "url :" + mResult.getPreviewUrl()
+                + "RELEASE DATE :" + mResult.getReleaseDate()
+                + "cOUNTY :" + mResult.getCountry()
+                + "gENRE :" + mResult.getPrimaryGenreName()
+                + "sHORT dESC :" + mResult.getShortDescription()
+                + "Release Date :" + mResult.getReleaseDate()
+                + "URL :" + mResult.getTrackViewUrl()
+                + "Warapper type :" + mResult.getWrapperType()
+        );
 //        mCategoriesLabel.setText(android.text.TextUtils.join(", ", categories));
 //        mRatingLabel.setText(Double.toString(mRestaurant.getRating()) + "/5");
 //        mPhoneLabel.setText(mRestaurant.getPhone());

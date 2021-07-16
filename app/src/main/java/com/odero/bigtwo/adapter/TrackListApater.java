@@ -25,9 +25,11 @@ import butterknife.ButterKnife;
 public class TrackListApater extends RecyclerView.Adapter<TrackListApater.TrackViewHolder> {
 
     private List<Result> resultList;
+    private Context mContext;
 
 
-    public TrackListApater(List<Result> mtrackList) {
+    public TrackListApater(Context context,List<Result> mtrackList) {
+        mContext = context;
         this.resultList = mtrackList;
     }
 
@@ -61,7 +63,7 @@ public class TrackListApater extends RecyclerView.Adapter<TrackListApater.TrackV
         @BindView(R.id.albumName) TextView mAlbumNameTextView;
         @BindView(R.id.albumArtsistName) TextView mAlbumArtistTextView;
         @BindView(R.id.numberOfSongs) TextView mAlbumTrackCountTextView;
-        private Context mContext;
+
 
         public TrackViewHolder(View itemView) {
             super(itemView);
