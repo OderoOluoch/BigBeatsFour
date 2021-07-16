@@ -1,5 +1,7 @@
 package com.odero.bigtwo.ui;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,7 +32,14 @@ import butterknife.ButterKnife;
 public class ResultDetailFragment extends Fragment {
     @BindView(R.id.frtrackImageView) ImageView mImageLabel;
     @BindView(R.id.frtrackNameTextView) TextView mNameLabel;
-    @BindView(R.id.frTrackDescriptionTextView) TextView mdescription;
+    @BindView(R.id.frCollectionName) TextView mCollectionName;
+    @BindView(R.id.frCountry) TextView mCountry;
+    @BindView(R.id.frGenre) TextView mGenre;
+//    @BindView(R.id.frPreviewUrl) TextView mPreview;
+    @BindView(R.id.goToWeb) Button goToWeb;
+    @BindView(R.id.frReleaseDate) TextView mReleaseDate;
+    @BindView(R.id.frTrackDescriptionTextView) TextView martistName;
+
 
     private Result mResult;
 
@@ -61,33 +71,31 @@ public class ResultDetailFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_result_detail, container, false);
         ButterKnife.bind(this, view);
         Picasso.get().load(mResult.getArtworkUrl100()).into(mImageLabel);
+        mNameLabel.setText(mResult.getTrackName());
+        mCollectionName.setText("Collection name :" + mResult.getCollectionName());
+        mCountry.setText("Country :" + mResult.getCountry());
+        mGenre.setText("Genre :" + mResult.getPrimaryGenreName());
+//        mPreview.setText("url :" + mResult.getPreviewUrl());
+        mReleaseDate.setText("Release Date :" + mResult.getReleaseDate());
+        martistName.setText("Artist Name " + mResult.getArtistName());
 
-        //.setText(mResult.getLongDescription());
-
-        mdescription.setText("Artist: "+mResult.getArtistName()
-                + "Warapper type :" + mResult.getWrapperType()
-                + "Track count :" + mResult.getTrackCount()
-                + "Collection name :" + mResult.getCollectionName()
-                + "Url :" + mResult.getCollectionArtistViewUrl()
-                + "Censored Name :" + mResult.getCollectionCensoredName()
-                + "Explisitness :" + mResult.getCollectionExplicitness()
-                + "Advisory rating :" + mResult.getContentAdvisoryRating()
-                + "Time :" + mResult.getTrackTimeMillis()
-                + "url :" + mResult.getPreviewUrl()
-                + "RELEASE DATE :" + mResult.getReleaseDate()
-                + "cOUNTY :" + mResult.getCountry()
-                + "gENRE :" + mResult.getPrimaryGenreName()
-                + "sHORT dESC :" + mResult.getShortDescription()
-                + "Release Date :" + mResult.getReleaseDate()
-                + "URL :" + mResult.getTrackViewUrl()
-                + "Warapper type :" + mResult.getWrapperType()
-        );
+        goToWeb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToUrl(mResult.getCollectionViewUrl());
+            }
+        });
 //        mCategoriesLabel.setText(android.text.TextUtils.join(", ", categories));
 //        mRatingLabel.setText(Double.toString(mRestaurant.getRating()) + "/5");
 //        mPhoneLabel.setText(mRestaurant.getPhone());
 //        mAddressLabel.setText(mRestaurant.getLocation().toString());
 
         return view;
+    }
+
+    private void goToUrl(String s){
+        Uri uri = Uri.parse(s);
+        startActivity(new Intent(Intent.ACTION_VIEW,uri));
     }
 
 
