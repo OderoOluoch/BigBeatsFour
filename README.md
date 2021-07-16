@@ -1,6 +1,6 @@
 # BigBeats
 
-An Android App that plays music using the MixCloud API.
+An Android App that plays music using the Apple Itunes API.
 
 
 
@@ -11,6 +11,10 @@ An Android App that plays music using the MixCloud API.
 ![Log In Screen](./app/src/main/res/drawable/bigbeatsthree.png)
 
 ![RegisterScreen](./app/src/main/res/drawable/bigbeatsfour.png)
+
+![RegisterScreen](./app/src/main/res/drawable/list.png)
+
+![RegisterScreen](./app/src/main/res/drawable/detail.png)
 
 ![Music Category Screen](./app/src/main/res/drawable/bigbeatsffive.png)
 
