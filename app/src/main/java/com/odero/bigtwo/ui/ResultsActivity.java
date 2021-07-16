@@ -59,6 +59,8 @@ public class ResultsActivity extends AppCompatActivity {
                     recyclerView.setAdapter(adapter);
 
                     adapter.notifyDataSetChanged();
+                }else{
+                    showUnsuccessfulMessage();
                 }
             }
 
@@ -68,5 +70,10 @@ public class ResultsActivity extends AppCompatActivity {
                 Toast.makeText(ResultsActivity.this,"Error "+ t.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private void showUnsuccessfulMessage() {
+        progressBar.setVisibility(View.GONE);
+        Toast.makeText(ResultsActivity.this,"Something went wrong, please make another search, or try later",Toast.LENGTH_SHORT).show();
+
     }
 }
