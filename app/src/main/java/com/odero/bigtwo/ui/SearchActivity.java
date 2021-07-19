@@ -8,12 +8,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.odero.bigtwo.Constants;
 import com.odero.bigtwo.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
+    //private SharedPreferences mSharedPreferences;
+    //private SharedPreferences.Editor mEditor;
+
+    private DatabaseReference mSearchedKeyWordReference;
 
 
     //Using BIndView from ButterKnife.
@@ -24,11 +31,19 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        mSearchedKeyWordReference = FirebaseDatabase
+                .getInstance()
+                .getReference()
+                .child(Constants.FIREBASE_CHILD_SEARCHED_KEY_WORD);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
         //BindViews
         ButterKnife.bind(this);
+
+
 
         //Implemented because of the onclick interface
         searchButton.setOnClickListener(this);
