@@ -18,9 +18,7 @@ public class WelcomeActivity extends  AppCompatActivity implements View.OnClickL
     FirebaseAuth mAuth;
 
     //Using BIndView from ButterKnife.
-    @BindView(R.id.goToLoginScreen)
-    Button login;
-    @BindView(R.id.goToSigInScreen) Button register;
+    @BindView(R.id.goToLoginScreen) Button login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,28 +30,23 @@ public class WelcomeActivity extends  AppCompatActivity implements View.OnClickL
 
         //Implemented because of the onclick interface
         login.setOnClickListener(this);
-        register.setOnClickListener(this);
+
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseUser user = mAuth.getCurrentUser();
-        if(user == null){
-            startActivity(new Intent(WelcomeActivity.this, LogInActivity.class));
-        }
-    }
+
+
 
     @Override
     public void onClick(View v) {
         //Helps us navigate between the log in and the register button.
         if(v == login){
-//            Intent intent = new Intent(WelcomeActivity.this, LogInActivity.class);
-//            startActivity(intent);
-        }else if(v == register){
-            Intent intent = new Intent(WelcomeActivity.this, SignInActivity.class);
-            startActivity(intent);
+            FirebaseUser user = mAuth.getCurrentUser();
+            if(user == null){
+                startActivity(new Intent(WelcomeActivity.this, LogInActivity.class));
+            }else{
+                startActivity(new Intent(WelcomeActivity.this, SearchActivity.class));
+            }
         }
 
     }
