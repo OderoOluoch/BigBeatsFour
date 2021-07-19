@@ -53,7 +53,6 @@ public class ResultsActivity extends AppCompatActivity {
             public void onResponse(Call<TrackResponse> call, Response<TrackResponse> response) {
                 if(response.isSuccessful() && response.body() != null){
                     resultList = response.body().getResults();
-
                     progressBar.setVisibility(View.GONE);
                     adapter = new TrackListApater(ResultsActivity.this,resultList);
                     recyclerView.setAdapter(adapter);

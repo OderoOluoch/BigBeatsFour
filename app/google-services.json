@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "342635283832",
+    "project_id": "bigtwo-812ac",
+    "storage_bucket": "bigtwo-812ac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:342635283832:android:0860d6e5bea45049ffb48d",
+        "android_client_info": {
+          "package_name": "com.odero.bigtwo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "342635283832-ru5nnspds41ovv1ktf6ocffj31ij3l43.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnWWMR6PfeAzbjuWlI1wCZWjOdyWmxzHw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "342635283832-ru5nnspds41ovv1ktf6ocffj31ij3l43.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
