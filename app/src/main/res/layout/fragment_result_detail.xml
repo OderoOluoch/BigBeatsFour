@@ -92,21 +92,34 @@
                     android:textColor="@color/black"
                     android:text="So, this"
                     android:textSize="15sp"/>
-                <Button
-                    android:layout_width="250dp"
-                    android:layout_height="56dp"
-                    android:text="View on web"
-                    android:id="@+id/goToWeb"
-                    android:background="@drawable/button"
-                    android:textColor="#fff"
-                    android:layout_gravity="center"/>
-
-                
-
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" >
+                    <Button
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_weight="1"
+                        android:id="@+id/goToWeb"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="#fff"
+                        android:background="@drawable/button"
+                        android:text="View on Web" />
+                    <Button
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button"
+                        android:id="@+id/saveToFireBase"
+                        android:layout_width="0dp"
+                        android:textColor="#fff"
+                        android:layout_height="wrap_content"
+                        android:text="Save Favorite" />
+                </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-
     </LinearLayout>
-
-
 </FrameLayout>

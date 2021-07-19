@@ -5,12 +5,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.odero.bigtwo.Constants;
 import com.odero.bigtwo.R;
 import com.odero.bigtwo.adapter.TrackListApater;
 import com.odero.bigtwo.models.Result;
@@ -19,11 +26,16 @@ import com.odero.bigtwo.network.TracksClient;
 
 import java.util.List;
 
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ResultsActivity extends AppCompatActivity {
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mEditor;
+    private String mRecentKeyWords;
+
     RecyclerView recyclerView;
     ProgressBar progressBar;
     LinearLayoutManager layoutManager;
@@ -43,8 +55,44 @@ public class ResultsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String TypedSearchKeyWOrd = intent.getStringExtra("TypedSearchKeyWOrd");
 
-        fetchPosts(TypedSearchKeyWOrd);
+        if(mRecentKeyWords != null){
+            fetchPosts(mRecentKeyWords);
+        }
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_search, menu);
+        ButterKnife.bind(this);
+
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mEditor = mSharedPreferences.edit();
+
+
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String searchKeyWord) {
+                addToSharedPreferences(searchKeyWord);
+                fetchPosts(searchKeyWord);
+                return false;
+            }
+
+
+            @Override
+            public boolean onQueryTextChange(String searchKeyWord) {
+                return false;
+            }
+        });
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
     private void fetchPosts(String term){
         progressBar.setVisibility(View.VISIBLE);
@@ -70,9 +118,16 @@ public class ResultsActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
     private void showUnsuccessfulMessage() {
         progressBar.setVisibility(View.GONE);
         Toast.makeText(ResultsActivity.this,"Something went wrong, please make another search, or try later",Toast.LENGTH_SHORT).show();
 
+    }
+
+    private void addToSharedPreferences(String keyWord) {
+        mEditor.putString(Constants.PREFERENCES_RESULT_KEY, keyWord).apply();
     }
 }
