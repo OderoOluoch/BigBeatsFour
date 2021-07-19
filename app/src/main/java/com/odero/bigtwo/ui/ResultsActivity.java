@@ -75,15 +75,15 @@ public class ResultsActivity extends AppCompatActivity {
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String location) {
-                addToSharedPreferences(location);
-                fetchPosts(location);
+            public boolean onQueryTextSubmit(String searchKeyWord) {
+                addToSharedPreferences(searchKeyWord);
+                fetchPosts(searchKeyWord);
                 return false;
             }
 
 
             @Override
-            public boolean onQueryTextChange(String location) {
+            public boolean onQueryTextChange(String searchKeyWord) {
                 return false;
             }
         });
@@ -128,6 +128,6 @@ public class ResultsActivity extends AppCompatActivity {
     }
 
     private void addToSharedPreferences(String keyWord) {
-        mEditor.putString(Constants.PREFERENCES_LOCATION_KEY, keyWord).apply();
+        mEditor.putString(Constants.PREFERENCES_RESULT_KEY, keyWord).apply();
     }
 }

@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,11 +26,10 @@ public class LogInActivity extends AppCompatActivity  {
     FirebaseAuth mAuth;
 
     //Using BIndView from ButterKnife.
-    @BindView(R.id.goToSeeMusicFromLogIn)
-    Button seeMusic;
-    @BindView(R.id.nameInputLoginView)
-    EditText mUserName;
+    @BindView(R.id.goToSeeMusicFromLogIn) Button seeMusic;
+    @BindView(R.id.nameInputLoginView) EditText mUserName;
     @BindView(R.id.passwordInputLoginView) EditText mUserPassword;
+    @BindView(R.id.registerInstead) TextView registerHereText;
 
 
     @Override
@@ -47,9 +47,9 @@ public class LogInActivity extends AppCompatActivity  {
             loginUser();
         });
 
-//        registerHereText.setOnClickListener(view ->{
-//            startActivity(new Intent(LogInActivity.this,SignInActivity.class));
-//        });
+        registerHereText.setOnClickListener(view ->{
+            startActivity(new Intent(LogInActivity.this,SignInActivity.class));
+        });
 
         //Implemented because of the onclick interface
 //        seeMusic.setOnClickListener(this);

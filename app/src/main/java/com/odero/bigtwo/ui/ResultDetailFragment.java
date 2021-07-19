@@ -55,11 +55,11 @@ public class ResultDetailFragment extends Fragment {
 
 
     public static ResultDetailFragment newInstance(Result result) {
-        ResultDetailFragment restaurantDetailFragment = new ResultDetailFragment();
+        ResultDetailFragment resultDetailFragment = new ResultDetailFragment();
         Bundle args = new Bundle();
         args.putParcelable("result", Parcels.wrap(result));
-        restaurantDetailFragment.setArguments(args);
-        return restaurantDetailFragment;
+        resultDetailFragment.setArguments(args);
+        return resultDetailFragment;
     }
 
     @Override
@@ -94,10 +94,10 @@ public class ResultDetailFragment extends Fragment {
         saveToFireBase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseReference restaurantRef = FirebaseDatabase
+                DatabaseReference resultRef = FirebaseDatabase
                         .getInstance()
                         .getReference(Constants.FIREBASE_CHILD_RESULTS);
-                restaurantRef.push().setValue(mResult);
+                resultRef.push().setValue(mResult);
                 Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
             }
         });

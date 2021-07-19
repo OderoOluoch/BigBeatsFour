@@ -3,12 +3,18 @@ package com.odero.bigtwo.ui;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,8 +27,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
-    //private SharedPreferences mSharedPreferences;
-    //private SharedPreferences.Editor mEditor;
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mEditor;
 
     private DatabaseReference mSearchedKeyWordReference;
     private ValueEventListener mSearchedKeyWordReferenceListener;
@@ -45,9 +51,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         mSearchedKeyWordReferenceListener = mSearchedKeyWordReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot locationSnapshot : dataSnapshot.getChildren()) {
-                    String location = locationSnapshot.getValue().toString();
-                    Log.d("Locations updated", "location: " + location);
+                for (DataSnapshot searchKeyWordSnapshot : dataSnapshot.getChildren()) {
+                    String searchKeyWord = searchKeyWordSnapshot.getValue().toString();
+                    Log.d("Search Key word updated", "Search Key Word: " + searchKeyWord);
                 }
             }
 
@@ -64,8 +70,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         //BindViews
         ButterKnife.bind(this);
 
-        //mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        //mEditor = mSharedPreferences.edit();
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mEditor = mSharedPreferences.edit();
 
 
 
@@ -84,9 +90,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 Intent intent = new Intent(SearchActivity.this, ResultsActivity.class);
                 intent.putExtra("TypedSearchKeyWOrd", TypedSearchKeyWOrd);
                 saveKeyWordToFirebase(TypedSearchKeyWOrd);
-                // if(!(location).equals("")) {
-                //      addToSharedPreferences(TypedSearchKeyWOrd);
-                //  }
+                 if(!(TypedSearchKeyWOrd).equals("")) {
+                      addToSharedPreferences(TypedSearchKeyWOrd);
+                  }
                 startActivity(intent);
             }
         }
@@ -100,10 +106,33 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         super.onDestroy();
         mSearchedKeyWordReference.removeEventListener(mSearchedKeyWordReferenceListener);
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_logout) {
+            logout();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
-    //    private void addToSharedPreferences(String location) {
-    //        mEditor.putString(Constants.PREFERENCES_LOCATION_KEY, location).apply();
-    //    }
+    private void logout() {
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(SearchActivity.this, LogInActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+        private void addToSharedPreferences(String searchKeyWord) {
+            mEditor.putString(Constants.PREFERENCES_RESULT_KEY, searchKeyWord).apply();
+        }
 
 
 }

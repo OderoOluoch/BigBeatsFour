@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 
 public class SavedResultListActivity extends AppCompatActivity {
 
-    private DatabaseReference mRestaurantReference;
+    private DatabaseReference mResultReference;
     private FirebaseRecyclerAdapter<Result, FirebaseResultsViewHolder> mFirebaseAdapter;
 
     @BindView(R.id.postRecyclerView) RecyclerView mRecyclerView;
@@ -39,22 +39,22 @@ public class SavedResultListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_results);
         ButterKnife.bind(this);
 
-        mRestaurantReference = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_RESULTS);
+        mResultReference = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_RESULTS);
         setUpFirebaseAdapter();
         hideProgressBar();
-        showRestaurants();
+        showResults();
     }
 
     private void setUpFirebaseAdapter(){
         FirebaseRecyclerOptions<Result> options =
                 new FirebaseRecyclerOptions.Builder<Result>()
-                        .setQuery(mRestaurantReference, Result.class)
+                        .setQuery(mResultReference, Result.class)
                         .build();
 
         mFirebaseAdapter = new FirebaseRecyclerAdapter<Result, FirebaseResultsViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull FirebaseResultsViewHolder firebaseRestaurantViewHolder, int position, @NonNull Result restaurant) {
-                firebaseRestaurantViewHolder.bindRestaurant(restaurant);
+            protected void onBindViewHolder(@NonNull FirebaseResultsViewHolder firebaseResultViewHolder, int position, @NonNull Result result) {
+                firebaseResultViewHolder.bindResult(result);
             }
 
             @NonNull
@@ -83,7 +83,7 @@ public class SavedResultListActivity extends AppCompatActivity {
         }
     }
 
-    private void showRestaurants() {
+    private void showResults() {
         mRecyclerView.setVisibility(View.VISIBLE);
     }
 

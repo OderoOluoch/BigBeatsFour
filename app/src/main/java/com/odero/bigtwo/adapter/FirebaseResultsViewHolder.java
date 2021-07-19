@@ -33,7 +33,7 @@ public class FirebaseResultsViewHolder  extends RecyclerView.ViewHolder implemen
         itemView.setOnClickListener(this);
     }
 
-    public void bindRestaurant(Result result) {
+    public void bindResult(Result result) {
 
         ImageView mAlbumImageView = (ImageView) mView.findViewById(R.id.albumImage);
         TextView mAlbumNameTextView = (TextView) mView.findViewById(R.id.albumName);
@@ -62,7 +62,7 @@ public class FirebaseResultsViewHolder  extends RecyclerView.ViewHolder implemen
 
                 Intent intent = new Intent(mContext, ResultDetailActivity.class);
                 intent.putExtra("position", itemPosition + "");
-                intent.putExtra("restaurants", Parcels.wrap(results));
+                intent.putExtra("results", Parcels.wrap(results));
 
                 mContext.startActivity(intent);
             }

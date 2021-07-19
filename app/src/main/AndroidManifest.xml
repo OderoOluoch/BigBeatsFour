@@ -15,12 +15,12 @@
         <activity android:name=".ui.ResultDetailActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.odero.bigtwo.ui.SearchActivity" />
+                android:value="com.odero.bigtwo.ui.WelcomeActivity" />
         </activity>
         <activity android:name=".ui.ResultsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.odero.bigtwo.ui.SearchActivity" />
+                android:value="com.odero.bigtwo.ui.WelcomeActivity" />
         </activity>
         <activity
             android:name=".ui.SearchActivity"
