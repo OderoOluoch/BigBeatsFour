@@ -12,12 +12,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.odero.bigtwo.Constants;
+import com.odero.bigtwo.R;
 import com.odero.bigtwo.models.Result;
 import com.odero.bigtwo.ui.ResultDetailActivity;
 import com.squareup.picasso.Picasso;
 import org.parceler.Parcels;
 import java.util.ArrayList;
 
+import butterknife.BindView;
 
 
 public class FirebaseResultsViewHolder  extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -32,16 +34,16 @@ public class FirebaseResultsViewHolder  extends RecyclerView.ViewHolder implemen
     }
 
     public void bindRestaurant(Result result) {
-        ImageView restaurantImageView = (ImageView) mView.findViewById(R.id.restaurantImageView);
-        TextView nameTextView = (TextView) mView.findViewById(R.id.restaurantNameTextView);
-        TextView categoryTextView = (TextView) mView.findViewById(R.id.categoryTextView);
-        TextView ratingTextView = (TextView) mView.findViewById(R.id.ratingTextView);
 
-        Picasso.get().load(result.getImageUrl()).into(restaurantImageView);
+        ImageView mAlbumImageView = (ImageView) mView.findViewById(R.id.albumImage);
+        TextView mAlbumNameTextView = (TextView) mView.findViewById(R.id.albumName);
+        TextView mAlbumArtistTextView = (TextView) mView.findViewById(R.id.albumArtsistName);
+        TextView mAlbumTrackCountTextView = (TextView) mView.findViewById(R.id.numberOfSongs);
 
-        nameTextView.setText(result.getName());
-        categoryTextView.setText(result.getCategories().get(0).getTitle());
-        ratingTextView.setText("Rating: " + result.getRating() + "/5");
+        Picasso.get().load(result.getArtworkUrl100()).into(mAlbumImageView);
+        mAlbumNameTextView.setText(result.getCollectionName());
+        mAlbumArtistTextView.setText(result.getArtistName());
+        mAlbumTrackCountTextView.setText( result.getTrackCount() + " Songs");
     }
 
     @Override
