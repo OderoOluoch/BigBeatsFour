@@ -19,6 +19,8 @@ public class WelcomeActivity extends  AppCompatActivity implements View.OnClickL
 
     //Using BIndView from ButterKnife.
     @BindView(R.id.goToLoginScreen) Button login;
+    @BindView(R.id.goToSavedSearch) Button savedSearch;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,19 +32,27 @@ public class WelcomeActivity extends  AppCompatActivity implements View.OnClickL
 
         //Implemented because of the onclick interface
         login.setOnClickListener(this);
+        savedSearch.setOnClickListener(this);
 
     }
 
 
     @Override
     public void onClick(View v) {
+        FirebaseUser user = mAuth.getCurrentUser();
         //Helps us navigate between the log in and the register button.
         if(v == login){
-            FirebaseUser user = mAuth.getCurrentUser();
             if(user == null){
                 startActivity(new Intent(WelcomeActivity.this, LogInActivity.class));
             }else{
                 startActivity(new Intent(WelcomeActivity.this, SearchActivity.class));
+            }
+        }else if( v==savedSearch){
+            if(user == null){
+                startActivity(new Intent(WelcomeActivity.this, LogInActivity.class));
+            }else{
+                Intent intent = new Intent(WelcomeActivity.this,SavedResultListActivity.class);
+                startActivity(intent);
             }
         }
 

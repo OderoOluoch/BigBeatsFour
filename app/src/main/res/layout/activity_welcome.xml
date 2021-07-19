@@ -41,6 +41,16 @@
         android:layout_gravity="center"
         android:layout_marginTop="50dp"/>
 
+    <Button
+        android:layout_width="250dp"
+        android:layout_height="56dp"
+        android:text="View Saved Search"
+        android:id="@+id/goToSavedSearch"
+        android:textColor="#fff"
+        android:background="@drawable/button"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"/>
+
 
 
 </LinearLayout>
