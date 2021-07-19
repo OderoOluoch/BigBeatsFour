@@ -13,7 +13,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.odero.bigtwo.Constants;
 import com.odero.bigtwo.R;
 import com.odero.bigtwo.models.Result;
 import com.squareup.picasso.Picasso;
@@ -37,6 +41,7 @@ public class ResultDetailFragment extends Fragment {
     @BindView(R.id.frGenre) TextView mGenre;
 //    @BindView(R.id.frPreviewUrl) TextView mPreview;
     @BindView(R.id.goToWeb) Button goToWeb;
+    @BindView(R.id.saveToFireBase) Button saveToFireBase;
     @BindView(R.id.frReleaseDate) TextView mReleaseDate;
     @BindView(R.id.frTrackDescriptionTextView) TextView martistName;
 
@@ -85,11 +90,17 @@ public class ResultDetailFragment extends Fragment {
                 goToUrl(mResult.getCollectionViewUrl());
             }
         });
-//        mCategoriesLabel.setText(android.text.TextUtils.join(", ", categories));
-//        mRatingLabel.setText(Double.toString(mRestaurant.getRating()) + "/5");
-//        mPhoneLabel.setText(mRestaurant.getPhone());
-//        mAddressLabel.setText(mRestaurant.getLocation().toString());
 
+        saveToFireBase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference restaurantRef = FirebaseDatabase
+                        .getInstance()
+                        .getReference(Constants.FIREBASE_CHILD_RESULTS);
+                restaurantRef.push().setValue(mResult);
+                Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
+            }
+        });
         return view;
     }
 
