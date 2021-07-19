@@ -24,7 +24,6 @@ import butterknife.ButterKnife;
 public class SignInActivity extends AppCompatActivity  {
     FirebaseAuth mAuth;
     @BindView(R.id.goToSeeMusciFRomRegister) Button seeMusic;
-    @BindView(R.id.nameInputRegisterView) EditText mRegisterUserName;
     @BindView(R.id.emailInputRegisterView) EditText mRegisterUserEmail;
     @BindView(R.id.passwordInputRegisterView) EditText mRegisterUserPassword;
 

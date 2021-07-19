@@ -31,10 +31,7 @@ public class WelcomeActivity extends  AppCompatActivity implements View.OnClickL
         //Implemented because of the onclick interface
         login.setOnClickListener(this);
 
-
     }
-
-
 
 
     @Override
