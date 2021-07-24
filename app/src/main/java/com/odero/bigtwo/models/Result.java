@@ -121,6 +121,7 @@ public class Result {
     @SerializedName("hasITunesExtras")
     @Expose
     private Boolean hasITunesExtras;
+    private String pushId;
 
     /**
      * No args constructor for use in serialization
@@ -210,6 +211,13 @@ public class Result {
         this.shortDescription = shortDescription;
         this.longDescription = longDescription;
         this.hasITunesExtras = hasITunesExtras;
+    }
+    public String getPushId() {
+        return pushId;
+    }
+
+    public void setPushId(String pushId) {
+        this.pushId = pushId;
     }
 
     public String getWrapperType() {

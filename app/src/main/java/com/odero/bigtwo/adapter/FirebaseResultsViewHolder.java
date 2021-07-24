@@ -25,6 +25,7 @@ import butterknife.BindView;
 public class FirebaseResultsViewHolder  extends RecyclerView.ViewHolder implements View.OnClickListener{
     View mView;
     Context mContext;
+    public ImageView mResultImageView;
 
     public FirebaseResultsViewHolder(View itemView) {
         super(itemView);
@@ -34,13 +35,13 @@ public class FirebaseResultsViewHolder  extends RecyclerView.ViewHolder implemen
     }
 
     public void bindResult(Result result) {
-
-        ImageView mAlbumImageView = (ImageView) mView.findViewById(R.id.albumImage);
+        mResultImageView = (ImageView) mView.findViewById(R.id.albumImage);
+        //ImageView mAlbumImageView = (ImageView) mView.findViewById(R.id.albumImage);
         TextView mAlbumNameTextView = (TextView) mView.findViewById(R.id.albumName);
         TextView mAlbumArtistTextView = (TextView) mView.findViewById(R.id.albumArtsistName);
         TextView mAlbumTrackCountTextView = (TextView) mView.findViewById(R.id.numberOfSongs);
 
-        Picasso.get().load(result.getArtworkUrl100()).into(mAlbumImageView);
+        Picasso.get().load(result.getArtworkUrl100()).into(mResultImageView);
         mAlbumNameTextView.setText(result.getCollectionName());
         mAlbumArtistTextView.setText(result.getArtistName());
         mAlbumTrackCountTextView.setText( result.getTrackCount() + " Songs");

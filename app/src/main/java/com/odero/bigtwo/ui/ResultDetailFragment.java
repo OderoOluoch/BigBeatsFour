@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.odero.bigtwo.Constants;
@@ -94,10 +96,17 @@ public class ResultDetailFragment extends Fragment {
         saveToFireBase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                String uid = user.getUid();
                 DatabaseReference resultRef = FirebaseDatabase
                         .getInstance()
-                        .getReference(Constants.FIREBASE_CHILD_RESULTS);
-                resultRef.push().setValue(mResult);
+                        .getReference(Constants.FIREBASE_CHILD_RESULTS)
+                        .child(uid);
+                DatabaseReference pushRef = resultRef.push();
+                String pushId = pushRef.getKey();
+                mResult.setPushId(pushId);
+                pushRef.setValue(mResult);
+
                 Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
             }
         });
