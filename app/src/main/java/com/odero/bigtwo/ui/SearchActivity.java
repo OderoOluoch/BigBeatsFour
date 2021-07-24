@@ -53,7 +53,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot searchKeyWordSnapshot : dataSnapshot.getChildren()) {
                     String searchKeyWord = searchKeyWordSnapshot.getValue().toString();
-                    Log.d("Search Key word updated", "Search Key Word: " + searchKeyWord);
+                    Log.d("Search Key word ", "Search Key Word: " + searchKeyWord);
                 }
             }
 
