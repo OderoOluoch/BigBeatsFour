@@ -9,6 +9,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,6 +25,9 @@ import butterknife.ButterKnife;
 
 public class SignInActivity extends AppCompatActivity  {
     FirebaseAuth mAuth;
+    private String mName;
+    @BindView(R.id.firebaseProgressBar) ProgressBar mSignInProgressBar;
+    @BindView(R.id.loadingTextView) TextView mLoadingSignUp;
     @BindView(R.id.goToSeeMusciFRomRegister) Button seeMusic;
     @BindView(R.id.emailInputRegisterView) EditText mRegisterUserEmail;
     @BindView(R.id.passwordInputRegisterView) EditText mRegisterUserPassword;
@@ -42,8 +47,16 @@ public class SignInActivity extends AppCompatActivity  {
             createUser();
         });
 
-        //Implemented because of the onclick interface
-        //seeMusic.setOnClickListener(this);
+    }
+    private void showProgressBar() {
+        mSignInProgressBar.setVisibility(View.VISIBLE);
+        mLoadingSignUp.setVisibility(View.VISIBLE);
+        mLoadingSignUp.setText("Sign Up process in Progress");
+    }
+
+    private void hideProgressBar() {
+        mSignInProgressBar.setVisibility(View.GONE);
+        mLoadingSignUp.setVisibility(View.GONE);
     }
 
     private void createUser(){
@@ -70,22 +83,33 @@ public class SignInActivity extends AppCompatActivity  {
         }
     }
 
+    private boolean isValidEmail(String email) {
+        boolean isGoodEmail =
+                (email != null && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches());
+        if (!isGoodEmail) {
+            mRegisterUserEmail.setError("Please enter a valid email address");
+            return false;
+        }
+        return isGoodEmail;
+    }
 
-//    @Override
-//    public void onClick(View v) {
-//        if(v == seeMusic){
-//            if( mRegisterUserName.getText().toString().length() == 0 ){
-//                mRegisterUserName.setError( "Name is required!" );
-//            }else if(mRegisterUserEmail.getText().toString().length() == 0){
-//                mRegisterUserEmail.setError( "Email is required!" );
-//            }else if(mRegisterUserPassword.getText().toString().length() == 0){
-//                mRegisterUserPassword.setError( "Password is required!" );
-//            }else {
-//                String userName = mRegisterUserName.getText().toString();
-//                Intent intent = new Intent(SignInActivity.this, SearchActivity.class);
-//                intent.putExtra("userName", userName);
-//                startActivity(intent);
-//            }
-//        }
-//    }
+    private boolean isValidName(String name) {
+        if (name.equals("")) {
+            mRegisterUserEmail.setError("Please enter your Email");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isValidPassword(String password, String confirmPassword) {
+        if (password.length() < 6) {
+            mRegisterUserPassword.setError("Please create a password containing at least 6 characters");
+            return false;
+        } else if (!password.equals(confirmPassword)) {
+            mRegisterUserPassword.setError("Passwords do not match");
+            return false;
+        }
+        return true;
+    }
+
 }

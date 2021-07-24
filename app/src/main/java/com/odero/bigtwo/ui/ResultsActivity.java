@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.odero.bigtwo.Constants;
 import com.odero.bigtwo.R;
 import com.odero.bigtwo.adapter.TrackListApater;
@@ -92,7 +93,20 @@ public class ResultsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.action_logout){
+            logout();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void logout(){
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(ResultsActivity.this, LogInActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
     private void fetchPosts(String term){
         progressBar.setVisibility(View.VISIBLE);
