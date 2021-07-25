@@ -122,6 +122,7 @@ public class Result {
     @Expose
     private Boolean hasITunesExtras;
     private String pushId;
+    String index;
 
     /**
      * No args constructor for use in serialization
@@ -211,6 +212,7 @@ public class Result {
         this.shortDescription = shortDescription;
         this.longDescription = longDescription;
         this.hasITunesExtras = hasITunesExtras;
+        this.index = "not_specified";
     }
     public String getPushId() {
         return pushId;
@@ -220,6 +222,13 @@ public class Result {
         this.pushId = pushId;
     }
 
+    public String getIndex() {
+        return index;
+    }
+
+    public void setIndex(String index) {
+        this.index = index;
+    }
     public String getWrapperType() {
         return wrapperType;
     }

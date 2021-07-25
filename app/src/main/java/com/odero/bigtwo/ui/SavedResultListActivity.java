@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.odero.bigtwo.Constants;
 import com.odero.bigtwo.R;
 import com.odero.bigtwo.adapter.FirebaseResultListAdapter;
@@ -58,13 +59,18 @@ public class SavedResultListActivity extends AppCompatActivity implements OnStar
     private void setUpFirebaseAdapter(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
-        mResultReference = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_RESULTS).child(uid);
+
+        Query query = FirebaseDatabase.getInstance()
+                .getReference(Constants.FIREBASE_CHILD_RESULTS)
+                .child(uid)
+                .orderByChild(Constants.FIREBASE_QUERY_INDEX);
+
         FirebaseRecyclerOptions<Result> options =
                 new FirebaseRecyclerOptions.Builder<Result>()
-                        .setQuery(mResultReference, Result.class)
+                        .setQuery(query, Result.class)
                         .build();
 
-        mFirebaseAdapter = new FirebaseResultListAdapter(options, mResultReference, this, this);
+        mFirebaseAdapter = new FirebaseResultListAdapter(options, query, this, this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mFirebaseAdapter);
@@ -72,6 +78,7 @@ public class SavedResultListActivity extends AppCompatActivity implements OnStar
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mFirebaseAdapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+
     }
 
     @Override
@@ -89,6 +96,11 @@ public class SavedResultListActivity extends AppCompatActivity implements OnStar
     }
     public void onStartDrag(RecyclerView.ViewHolder viewHolder){
         mItemTouchHelper.startDrag(viewHolder);
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mFirebaseAdapter.stopListening();
     }
 
 }

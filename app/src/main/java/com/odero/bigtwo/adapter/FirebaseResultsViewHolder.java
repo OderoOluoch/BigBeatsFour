@@ -15,6 +15,7 @@ import com.odero.bigtwo.Constants;
 import com.odero.bigtwo.R;
 import com.odero.bigtwo.models.Result;
 import com.odero.bigtwo.ui.ResultDetailActivity;
+import com.odero.bigtwo.util.ItemTouchHelperViewHolder;
 import com.squareup.picasso.Picasso;
 import org.parceler.Parcels;
 import java.util.ArrayList;
@@ -22,7 +23,10 @@ import java.util.ArrayList;
 import butterknife.BindView;
 
 
-public class FirebaseResultsViewHolder  extends RecyclerView.ViewHolder implements View.OnClickListener{
+public class FirebaseResultsViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
+    private static final int MAX_WIDTH = 200;
+    private static final int MAX_HEIGHT = 200;
+
     View mView;
     Context mContext;
     public ImageView mResultImageView;
@@ -31,7 +35,6 @@ public class FirebaseResultsViewHolder  extends RecyclerView.ViewHolder implemen
         super(itemView);
         mView = itemView;
         mContext = itemView.getContext();
-        itemView.setOnClickListener(this);
     }
 
     public void bindResult(Result result) {
@@ -46,31 +49,20 @@ public class FirebaseResultsViewHolder  extends RecyclerView.ViewHolder implemen
         mAlbumArtistTextView.setText(result.getArtistName());
         mAlbumTrackCountTextView.setText( result.getTrackCount() + " Songs");
     }
+    @Override
+    public void onItemSelected() {
+        itemView.animate()
+                .alpha(0.7f)
+                .scaleX(0.9f)
+                .scaleY(0.9f)
+                .setDuration(500);
+    }
 
     @Override
-    public void onClick(View view) {
-        final ArrayList<Result> results = new ArrayList<>();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_RESULTS);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    results.add(snapshot.getValue(Result.class));
-                }
-
-                int itemPosition = getLayoutPosition();
-
-                Intent intent = new Intent(mContext, ResultDetailActivity.class);
-                intent.putExtra("position", itemPosition + "");
-                intent.putExtra("results", Parcels.wrap(results));
-
-                mContext.startActivity(intent);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
+    public void onItemClear() {
+        itemView.animate()
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f);
     }
 }
