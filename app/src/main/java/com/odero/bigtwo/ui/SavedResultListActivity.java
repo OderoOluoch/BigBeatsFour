@@ -35,72 +35,11 @@ import com.odero.bigtwo.util.SimpleItemTouchHelperCallback;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SavedResultListActivity extends AppCompatActivity implements OnStartDragListener {
-
-    private DatabaseReference mResultReference;
-    private ItemTouchHelper mItemTouchHelper;
-    private FirebaseResultListAdapter mFirebaseAdapter;
-
-    @BindView(R.id.postRecyclerView) RecyclerView mRecyclerView;
-    //@BindView(R.id.errorTextView) TextView mErrorTextView;
-    @BindView(R.id.progressBar) ProgressBar mProgressBar;
-
-
+public class SavedResultListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_results);
-        ButterKnife.bind(this);
-
-
-        setUpFirebaseAdapter();
-    }
-
-    private void setUpFirebaseAdapter(){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = user.getUid();
-
-        Query query = FirebaseDatabase.getInstance()
-                .getReference(Constants.FIREBASE_CHILD_RESULTS)
-                .child(uid)
-                .orderByChild(Constants.FIREBASE_QUERY_INDEX);
-
-        FirebaseRecyclerOptions<Result> options =
-                new FirebaseRecyclerOptions.Builder<Result>()
-                        .setQuery(query, Result.class)
-                        .build();
-
-        mFirebaseAdapter = new FirebaseResultListAdapter(options, query, this, this);
-
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(mFirebaseAdapter);
-        mRecyclerView.setHasFixedSize(true);
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mFirebaseAdapter);
-        mItemTouchHelper = new ItemTouchHelper(callback);
-        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mFirebaseAdapter.startListening();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if(mFirebaseAdapter!= null) {
-            mFirebaseAdapter.stopListening();
-        }
-    }
-    public void onStartDrag(RecyclerView.ViewHolder viewHolder){
-        mItemTouchHelper.startDrag(viewHolder);
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mFirebaseAdapter.stopListening();
+        setContentView(R.layout.activity_saved_result_list);
     }
 
 }
