@@ -114,6 +114,7 @@ public class FirebaseResultListAdapter extends FirebaseRecyclerAdapter<Result, F
         FragmentTransaction ft = ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.restaurantDetailContainer, detailFragment);
         ft.commit();
+
     }
 
 
@@ -143,8 +144,7 @@ public class FirebaseResultListAdapter extends FirebaseRecyclerAdapter<Result, F
         for (Result result : mResults) {
             int index = mResults.indexOf(result);
             DatabaseReference ref = getRef(index);
-            result.setIndex(Integer.toString(index));
-            ref.setValue(result);
+            ref.child("index").setValue(Integer.toString(index));
         }
     }
 

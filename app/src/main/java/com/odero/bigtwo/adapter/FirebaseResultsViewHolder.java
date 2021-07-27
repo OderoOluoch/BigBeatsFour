@@ -2,6 +2,9 @@ package com.odero.bigtwo.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +21,8 @@ import com.odero.bigtwo.ui.ResultDetailActivity;
 import com.odero.bigtwo.util.ItemTouchHelperViewHolder;
 import com.squareup.picasso.Picasso;
 import org.parceler.Parcels;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -39,16 +44,38 @@ public class FirebaseResultsViewHolder extends RecyclerView.ViewHolder implement
 
     public void bindResult(Result result) {
         mResultImageView = (ImageView) mView.findViewById(R.id.albumImage);
-        //ImageView mAlbumImageView = (ImageView) mView.findViewById(R.id.albumImage);
         TextView mAlbumNameTextView = (TextView) mView.findViewById(R.id.albumName);
         TextView mAlbumArtistTextView = (TextView) mView.findViewById(R.id.albumArtsistName);
         TextView mAlbumTrackCountTextView = (TextView) mView.findViewById(R.id.numberOfSongs);
 
-        Picasso.get().load(result.getArtworkUrl100()).into(mResultImageView);
+        if (!result.getArtworkUrl100().contains("http")) {
+            try {
+                Bitmap imageBitmap = decodeFromFirebaseBase64(result.getArtworkUrl100());
+                mResultImageView.setImageBitmap(imageBitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // This block of code should already exist, we're just moving it to the 'else' statement:
+            Picasso.get().load(result.getArtworkUrl100()).into(mResultImageView);
+            mAlbumNameTextView.setText(result.getCollectionName());
+            mAlbumArtistTextView.setText(result.getArtistName());
+            mAlbumTrackCountTextView.setText( result.getTrackCount() + " Songs");
+        }
+
         mAlbumNameTextView.setText(result.getCollectionName());
         mAlbumArtistTextView.setText(result.getArtistName());
         mAlbumTrackCountTextView.setText( result.getTrackCount() + " Songs");
     }
+
+
+    public static Bitmap decodeFromFirebaseBase64(String image) throws IOException {
+        byte[] decodedByteArray = android.util.Base64.decode(image, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedByteArray, 0, decodedByteArray.length);
+    }
+
+
+
     @Override
     public void onItemSelected() {
         itemView.animate()
