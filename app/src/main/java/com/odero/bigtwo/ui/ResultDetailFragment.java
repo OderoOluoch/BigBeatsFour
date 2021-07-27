@@ -69,24 +69,15 @@ public class ResultDetailFragment extends Fragment {
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 11;
     private String currentPhotoPath;
 
-    @BindView(R.id.frtrackImageView)
-    ImageView mImageLabel;
-    @BindView(R.id.frtrackNameTextView)
-    TextView mNameLabel;
-    @BindView(R.id.frCollectionName)
-    TextView mCollectionName;
-    @BindView(R.id.frCountry)
-    TextView mCountry;
-    @BindView(R.id.frGenre)
-    TextView mGenre;
-    @BindView(R.id.goToWeb)
-    Button goToWeb;
-    @BindView(R.id.saveToFireBase)
-    Button saveToFireBase;
-    @BindView(R.id.frReleaseDate)
-    TextView mReleaseDate;
-    @BindView(R.id.frTrackDescriptionTextView)
-    TextView martistName;
+    @BindView(R.id.frtrackImageView) ImageView mImageLabel;
+    @BindView(R.id.frtrackNameTextView) TextView mNameLabel;
+    @BindView(R.id.frCollectionName) TextView mCollectionName;
+    @BindView(R.id.frCountry) TextView mCountry;
+    @BindView(R.id.frGenre) TextView mGenre;
+//    @BindView(R.id.goToWeb) Button goToWeb;
+    @BindView(R.id.saveToFireBase) Button saveToFireBase;
+    @BindView(R.id.frReleaseDate) TextView mReleaseDate;
+    @BindView(R.id.frTrackDescriptionTextView) TextView martistName;
 
 
     private Result mResult;
@@ -146,12 +137,12 @@ public class ResultDetailFragment extends Fragment {
         mReleaseDate.setText("Release Date :" + mResult.getReleaseDate());
         martistName.setText("Artist Name " + mResult.getArtistName());
 
-        goToWeb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToUrl(mResult.getCollectionViewUrl());
-            }
-        });
+//        goToWeb.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                goToUrl(mResult.getCollectionViewUrl());
+//            }
+//        });
 
         if (mSource.equals(Constants.SOURCE_SAVED)) {
             saveToFireBase.setVisibility(View.GONE);

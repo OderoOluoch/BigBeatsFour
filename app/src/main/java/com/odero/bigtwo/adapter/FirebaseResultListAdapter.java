@@ -112,7 +112,7 @@ public class FirebaseResultListAdapter extends FirebaseRecyclerAdapter<Result, F
     private void createDetailFragment(int position) {
         ResultDetailFragment detailFragment = ResultDetailFragment.newInstance(mResults, position, Constants.SOURCE_SAVED);
         FragmentTransaction ft = ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.restaurantDetailContainer, detailFragment);
+        ft.replace(R.id.resultsDetailContainer, detailFragment);
         ft.commit();
 
     }
