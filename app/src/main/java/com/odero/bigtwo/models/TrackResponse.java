@@ -1,4 +1,5 @@
 package com.odero.bigtwo.models;
+import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -13,7 +14,7 @@ public class TrackResponse {
     private Integer resultCount;
     @SerializedName("results")
     @Expose
-    private List<Result> results = null;
+    private ArrayList<Result> results = null;
 
     /**
      * No args constructor for use in serialization
@@ -27,7 +28,7 @@ public class TrackResponse {
      * @param resultCount
      * @param results
      */
-    public TrackResponse(Integer resultCount, List<Result> results) {
+    public TrackResponse(Integer resultCount, ArrayList<Result> results) {
         super();
         this.resultCount = resultCount;
         this.results = results;
@@ -45,7 +46,7 @@ public class TrackResponse {
         return results;
     }
 
-    public void setResults(List<Result> results) {
+    public void setResults(ArrayList<Result> results) {
         this.results = results;
     }
 

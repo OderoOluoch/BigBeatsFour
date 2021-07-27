@@ -9,19 +9,22 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import com.odero.bigtwo.models.Result;
 import com.odero.bigtwo.ui.ResultDetailFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ResultPagerAdapter extends FragmentPagerAdapter {
-    private List<Result> mResults;
+    private ArrayList<Result> mResults;
+    private String mSource;
 
-    public ResultPagerAdapter(@NonNull FragmentManager fm, int behavior, List<Result> results) {
-        super(fm, behavior);
+    public ResultPagerAdapter(@NonNull FragmentManager fm,  ArrayList<Result> results, String source) {
+        super(fm);
         mResults = results;
+        mSource = source;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return ResultDetailFragment.newInstance(mResults.get(position));
+        return ResultDetailFragment.newInstance(mResults, position, mSource);
     }
 
     @Override

@@ -26,6 +26,8 @@ import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -36,12 +38,15 @@ import butterknife.ButterKnife;
  */
 
 public class ResultDetailFragment extends Fragment {
+    private ArrayList<Result> mResults;
+    private int mPosition;
+    private String mSource;
+
     @BindView(R.id.frtrackImageView) ImageView mImageLabel;
     @BindView(R.id.frtrackNameTextView) TextView mNameLabel;
     @BindView(R.id.frCollectionName) TextView mCollectionName;
     @BindView(R.id.frCountry) TextView mCountry;
     @BindView(R.id.frGenre) TextView mGenre;
-//    @BindView(R.id.frPreviewUrl) TextView mPreview;
     @BindView(R.id.goToWeb) Button goToWeb;
     @BindView(R.id.saveToFireBase) Button saveToFireBase;
     @BindView(R.id.frReleaseDate) TextView mReleaseDate;
@@ -55,20 +60,25 @@ public class ResultDetailFragment extends Fragment {
     }
 
 
-
-    public static ResultDetailFragment newInstance(Result result) {
-        ResultDetailFragment resultDetailFragment = new ResultDetailFragment();
+    public static ResultDetailFragment newInstance(ArrayList<Result> restaurants, Integer position, String source) {
+        ResultDetailFragment restaurantDetailFragment = new ResultDetailFragment();
         Bundle args = new Bundle();
-        args.putParcelable("result", Parcels.wrap(result));
-        resultDetailFragment.setArguments(args);
-        return resultDetailFragment;
+
+        args.putParcelable(Constants.EXTRA_KEY_RESULT, Parcels.wrap(restaurants));
+        args.putInt(Constants.EXTRA_KEY_POSITION, position);
+        args.putString(Constants.KEY_SOURCE, source);
+        restaurantDetailFragment.setArguments(args);
+        return restaurantDetailFragment;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        assert getArguments() != null;
-        mResult = Parcels.unwrap(getArguments().getParcelable("result"));
+        mResults = Parcels.unwrap(getArguments().getParcelable(Constants.EXTRA_KEY_RESULT));
+        mPosition = getArguments().getInt(Constants.EXTRA_KEY_POSITION);
+        mSource = getArguments().getString(Constants.KEY_SOURCE);
+        setHasOptionsMenu(true);
+        mResult = mResults.get(mPosition);
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -93,23 +103,30 @@ public class ResultDetailFragment extends Fragment {
             }
         });
 
-        saveToFireBase.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                String uid = user.getUid();
-                DatabaseReference resultRef = FirebaseDatabase
-                        .getInstance()
-                        .getReference(Constants.FIREBASE_CHILD_RESULTS)
-                        .child(uid);
-                DatabaseReference pushRef = resultRef.push();
-                String pushId = pushRef.getKey();
-                mResult.setPushId(pushId);
-                pushRef.setValue(mResult);
 
-                Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (mSource.equals(Constants.SOURCE_SAVED)) {
+            saveToFireBase.setVisibility(View.GONE);
+        } else {
+            saveToFireBase.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    String uid = user.getUid();
+                    DatabaseReference resultRef = FirebaseDatabase
+                            .getInstance()
+                            .getReference(Constants.FIREBASE_CHILD_RESULTS)
+                            .child(uid);
+                    DatabaseReference pushRef = resultRef.push();
+                    String pushId = pushRef.getKey();
+                    mResult.setPushId(pushId);
+                    pushRef.setValue(mResult);
+
+                    Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+
         return view;
     }
 

@@ -1,5 +1,6 @@
 package com.odero.bigtwo.ui;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -25,7 +26,9 @@ import com.odero.bigtwo.adapter.TrackListApater;
 import com.odero.bigtwo.models.Result;
 import com.odero.bigtwo.models.TrackResponse;
 import com.odero.bigtwo.network.TracksClient;
+import com.odero.bigtwo.util.OnRestaurantSelectedListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -37,18 +40,21 @@ import retrofit2.Response;
 
 public class ResultListFragment extends Fragment {
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
+    @BindView(R.id.progressBar) ProgressBar progressBar;
+
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
     private String mRecentKeyWords;
 
-    ProgressBar progressBar;
-    LinearLayoutManager layoutManager;
+    private OnRestaurantSelectedListener mOnRestaurantSelectedListener;
+
     TrackListApater adapter;
-    List<Result> resultList ;
+    ArrayList<Result> resultList ;
 
     public ResultListFragment() {
         // Required empty public constructor
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +66,15 @@ public class ResultListFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mOnRestaurantSelectedListener = (OnRestaurantSelectedListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + e.getMessage());
+        }
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -105,35 +120,26 @@ public class ResultListFragment extends Fragment {
 
 
     private void fetchPosts(String term){
-//        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
         TracksClient.getRetrofitClient().getTracks(term).enqueue(new Callback<TrackResponse>() {
             @Override
             public void onResponse(Call<TrackResponse> call, Response<TrackResponse> response) {
                 if(response.isSuccessful() && response.body() != null){
-                    resultList = response.body().getResults();
-//                    progressBar.setVisibility(View.GONE);
+                    resultList = (ArrayList<Result>) response.body().getResults();
+                    progressBar.setVisibility(View.GONE);
+
 
                     getActivity().runOnUiThread(new Runnable() {
-                        // Line above states 'getActivity()' instead of previous 'RestaurantListActivity.this'
-                        // because fragments do not have own context, and must inherit from corresponding activity.
+
                         @Override
                         public void run() {
-                            adapter = new TrackListApater(getActivity(), resultList);
-                            // Line above states `getActivity()` instead of previous
-                            // 'getApplicationContext()' because fragments do not have own context,
-                            // must instead inherit it from corresponding activity.
-
-
+                            adapter = new TrackListApater(getActivity(), resultList, mOnRestaurantSelectedListener);
                             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-                            // Line above states 'new LinearLayoutManager(getActivity());' instead of previous
-                            // 'new LinearLayoutManager(RestaurantListActivity.this);' when method resided
-                            // in RestaurantListActivity because Fragments do not have context
-                            // and must instead inherit from corresponding activity.
-
                             recyclerView.setLayoutManager(layoutManager);
                             recyclerView.setHasFixedSize(true);
                             recyclerView.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
+
                         }
                     });
 
