@@ -96,7 +96,7 @@ public class FirebaseResultListAdapter extends FirebaseRecyclerAdapter<Result, F
             @Override
             public void onClick(View v) {
                 int itemPosition = firebaseResultViewHolder.getAdapterPosition();
-                if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+                if (mOrientation == Configuration.ORIENTATION_LANDSCAPE){
                     createDetailFragment(itemPosition);
                 } else {
                     Intent intent = new Intent(mContext, ResultDetailActivity.class);
@@ -107,6 +107,7 @@ public class FirebaseResultListAdapter extends FirebaseRecyclerAdapter<Result, F
                 }
             }
         });
+
     }
 
     private void createDetailFragment(int position) {

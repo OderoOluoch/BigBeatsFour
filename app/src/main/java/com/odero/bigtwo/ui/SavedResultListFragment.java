@@ -29,7 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SavedResultListFragment extends Fragment implements OnStartDragListener {
-//    private DatabaseReference mResultReference;
+    private DatabaseReference mResultReference;
     private ItemTouchHelper mItemTouchHelper;
     private FirebaseResultListAdapter mFirebaseAdapter;
 
@@ -52,6 +52,7 @@ public class SavedResultListFragment extends Fragment implements OnStartDragList
     private void setUpFirebaseAdapter() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
+
 
         Query query = FirebaseDatabase.getInstance()
                 .getReference(Constants.FIREBASE_CHILD_RESULTS)
@@ -83,16 +84,31 @@ public class SavedResultListFragment extends Fragment implements OnStartDragList
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mFirebaseAdapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
         mItemTouchHelper.startDrag(viewHolder);
     }
+    @Override
+    public void onStart() {
+        super.onStart();
+        mFirebaseAdapter.startListening();
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(mFirebaseAdapter!= null) {
+            mFirebaseAdapter.stopListening();
+        }
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mFirebaseAdapter.stopListening();
+        if(mFirebaseAdapter!= null) {
+            mFirebaseAdapter.stopListening();
+        }
     }
 }

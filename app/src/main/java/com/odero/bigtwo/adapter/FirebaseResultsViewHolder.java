@@ -58,9 +58,9 @@ public class FirebaseResultsViewHolder extends RecyclerView.ViewHolder implement
         } else {
             // This block of code should already exist, we're just moving it to the 'else' statement:
             Picasso.get().load(result.getArtworkUrl100()).into(mResultImageView);
-            mAlbumNameTextView.setText(result.getCollectionName());
-            mAlbumArtistTextView.setText(result.getArtistName());
-            mAlbumTrackCountTextView.setText( result.getTrackCount() + " Songs");
+//            mAlbumNameTextView.setText(result.getCollectionName());
+//            mAlbumArtistTextView.setText(result.getArtistName());
+//            mAlbumTrackCountTextView.setText( result.getTrackCount() + " Songs");
         }
 
         mAlbumNameTextView.setText(result.getCollectionName());

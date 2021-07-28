@@ -6,7 +6,7 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="130dp"
         android:layout_height="100dp"
-        android:id="@+id/restaurantImageView"
+        android:id="@+id/albumImage"
         android:src="@drawable/classical"
         android:scaleType="centerCrop"/>
 
@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/restaurantNameTextView"
+            android:id="@+id/albumArtsistName"
             android:textSize="14dp"
             android:text="Restaurant Name"
             />
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="One Cuisine Type"
-            android:id="@+id/categoryTextView"
+            android:id="@+id/albumName"
             android:textSize="10dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:text="Rating"
             android:visibility="gone"
-            android:id="@+id/ratingTextView"
+            android:id="@+id/numberOfSongs"
             />
     </LinearLayout>
 </LinearLayout>

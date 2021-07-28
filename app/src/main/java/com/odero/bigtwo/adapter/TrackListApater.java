@@ -30,11 +30,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class TrackListApater extends RecyclerView.Adapter<TrackListApater.TrackViewHolder> {
-    private static final int MAX_WIDTH = 200;
-    private static final int MAX_HEIGHT = 200;
-
-
-    private int mOrientation;
     private ArrayList<Result> resultList = new ArrayList<>();
     private Context mContext;
     private OnRestaurantSelectedListener mOnRestaurantSelectedListener;

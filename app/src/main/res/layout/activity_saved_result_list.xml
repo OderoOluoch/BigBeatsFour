@@ -10,6 +10,6 @@
         android:name="com.odero.bigtwo.ui.SavedResultListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout="@layout/fragment_result_list" />
+        tools:layout="@layout/fragment_saved_result_list" />
 
 </RelativeLayout>

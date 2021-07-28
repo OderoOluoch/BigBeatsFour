@@ -63,6 +63,7 @@ import static com.odero.bigtwo.adapter.FirebaseResultsViewHolder.decodeFromFireb
 
 public class ResultDetailFragment extends Fragment {
     private ArrayList<Result> mResults;
+    private Result mResult;
     private int mPosition;
     private String mSource;
     private static final int REQUEST_IMAGE_CAPTURE = 111;
@@ -80,7 +81,7 @@ public class ResultDetailFragment extends Fragment {
     @BindView(R.id.frTrackDescriptionTextView) TextView martistName;
 
 
-    private Result mResult;
+
 
     public ResultDetailFragment() {
         // Required empty public constructor
@@ -101,12 +102,11 @@ public class ResultDetailFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
         mResults = Parcels.unwrap(getArguments().getParcelable(Constants.EXTRA_KEY_RESULT));
         mPosition = getArguments().getInt(Constants.EXTRA_KEY_POSITION);
+        mResult = mResults.get(mPosition);
         mSource = getArguments().getString(Constants.KEY_SOURCE);
         setHasOptionsMenu(true);
-        mResult = mResults.get(mPosition);
     }
 
     @Override
@@ -128,7 +128,7 @@ public class ResultDetailFragment extends Fragment {
                     .into(mImageLabel);
         }
 
-        Picasso.get().load(mResult.getArtworkUrl100()).into(mImageLabel);
+        //Picasso.get().load(mResult.getArtworkUrl100()).into(mImageLabel);
         mNameLabel.setText(mResult.getTrackName());
         mCollectionName.setText("Collection name :" + mResult.getCollectionName());
         mCountry.setText("Country :" + mResult.getCountry());
@@ -136,13 +136,6 @@ public class ResultDetailFragment extends Fragment {
 //        mPreview.setText("url :" + mResult.getPreviewUrl());
         mReleaseDate.setText("Release Date :" + mResult.getReleaseDate());
         martistName.setText("Artist Name " + mResult.getArtistName());
-
-//        goToWeb.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                goToUrl(mResult.getCollectionViewUrl());
-//            }
-//        });
 
         if (mSource.equals(Constants.SOURCE_SAVED)) {
             saveToFireBase.setVisibility(View.GONE);
@@ -193,10 +186,6 @@ public class ResultDetailFragment extends Fragment {
         return BitmapFactory.decodeByteArray(decodedByteArray, 0, decodedByteArray.length);
     }
 
-    private void goToUrl(String s) {
-        Uri uri = Uri.parse(s);
-        startActivity(new Intent(Intent.ACTION_VIEW, uri));
-    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -229,6 +218,34 @@ public class ResultDetailFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
+            // we have heard back from our request for camera and write external storage.
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                onLaunchCamera();
+            } else {
+                Toast.makeText(getContext(), "Can't open the camera without permission", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private File createImageFile() {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "Album_JPEG_" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        File image = new File(storageDir, imageFileName + ".jpg");
+
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        // Log.i(TAG, currentPhotoPath);
+        return image;
+
+    }
+
     public void onLaunchCamera() {
 
         Uri photoURI = FileProvider.getUriForFile(getActivity(), getActivity().getApplicationContext().getPackageName() + ".provider",
@@ -238,21 +255,6 @@ public class ResultDetailFragment extends Fragment {
         // tell the camera to request write permissions
         takePictureIntent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-    }
-
-    private File createImageFile() {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "Restaurant_JPEG_" + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);
-        File image = new File(storageDir, imageFileName + ".jpg");
-
-        // Save a file: path for use with ACTION_VIEW intents
-        String currentPhotoPath = image.getAbsolutePath();
-        // Log.i(TAG, currentPhotoPath);
-        return image;
-
     }
 
     @Override
@@ -277,7 +279,7 @@ public class ResultDetailFragment extends Fragment {
 
             // Decode the image file into a Bitmap sized to fill the View
 
-//            bmOptions.inSampleSize = calculateInSampleSize(bmOptions, targetW, targetH);
+          bmOptions.inSampleSize = calculateInSampleSize(bmOptions, targetW, targetH);
             bmOptions.inPurgeable = true;
             bmOptions.inJustDecodeBounds = false;
 
@@ -286,6 +288,30 @@ public class ResultDetailFragment extends Fragment {
             mImageLabel.setImageBitmap(bitmap);
             encodeBitmapAndSaveToFirebase(bitmap);
         }
+    }
+
+    public static int calculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) >= reqHeight
+                    && (halfWidth / inSampleSize) >= reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
     }
 
     private void addrestaurantPicsToGallery() {
@@ -309,18 +335,7 @@ public class ResultDetailFragment extends Fragment {
         ref.setValue(imageEncoded);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
-            // we have heard back from our request for camera and write external storage.
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                onLaunchCamera();
-            } else {
-                Toast.makeText(getContext(), "Can't open the camera without permission", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
+
 
 
 }
